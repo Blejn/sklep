@@ -10,7 +10,8 @@
 		"plugin:import/recommended",
 		"plugin:import/typescript",
 		"prettier",
-		"next/core-web-vitals"
+		"next/core-web-vitals",
+		"plugin:@typescript-eslint/parser"
 	],
 	"rules": {
 		// sort imports
@@ -89,5 +90,5 @@
 			}
 		}
 	],
-	"ignorePatterns": ["*.js", "*.jsx"]
+	"ignorePatterns": ["*.js", "*.jsx", "*.json"]
 }
