@@ -1,0 +1,23 @@
+query ProductsGetById($id: ID!) {
+	product(where: { id: $id }) {
+		id
+		name
+		price
+		slug
+		categories {
+			name
+		}
+		images {
+			url
+		}
+		description
+		variants {
+			... on ProductSizeColorVariant {
+				id
+				name
+				color
+				size
+			}
+		}
+	}
+}

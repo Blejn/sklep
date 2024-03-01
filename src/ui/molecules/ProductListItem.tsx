@@ -2,19 +2,18 @@
 import React from "react";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { ProductItemDescription } from "@/ui/atoms/ProductItemDescription";
-import { type ProductListItemType } from "@/ui/molecules/types";
+import Link from "next/link";
+import { ProdutListItemFragment } from "@/gql/graphql";
 
-type ProductListItemProps = {
-	product: ProductListItemType;
-};
-
-export const ProductListItem = ({ product }: ProductListItemProps) => {
+export const ProductListItem = ({ product }: { product: ProdutListItemFragment }) => {
 	return (
 		<li data-testid="products-list" className="flex flex-row overflow-hidden rounded-md shadow-md">
-			<article>
-				<ProductCoverImage {...product.coverImage} />
-				<ProductItemDescription product={product} />
-			</article>
+			<Link href={{ pathname: `/product/${product?.id}` }}>
+				<article>
+					<ProductCoverImage url={product?.images[0]?.url} />
+					<ProductItemDescription product={product} />
+				</article>
+			</Link>
 		</li>
 	);
 };

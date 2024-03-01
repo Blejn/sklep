@@ -1,0 +1,7 @@
+query ProductsGetSizeColorVariants($id: ID!) {
+	productSizeColorVariants(where: { id: $id }) {
+		color
+		size
+		name
+	}
+}

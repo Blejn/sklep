@@ -1,10 +1,7 @@
 export type ProductListItemType = {
-	id: number;
+	id: string;
 	name: string;
-	category: string;
+	categories: { name: string }[];
 	price: number;
-	coverImage: {
-		src: string;
-		alt: string;
-	};
+	images: { src: string }[];
 };

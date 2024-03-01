@@ -1,0 +1,7 @@
+query ProductsGetByCollectionId($id: ID!) {
+	collection(where: { id: $id }) {
+		products(first: 10) {
+			...ProdutListItem
+		}
+	}
+}

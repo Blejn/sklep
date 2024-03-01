@@ -1,0 +1,16 @@
+{
+	"projects": {
+		"lib": {
+			"extensions": {
+				"endpoints": {
+					"default": {
+						"url": "https://hasura.io/learn/graphql",
+						"headers": {
+							"Authorization": "Bearer 1234567890123456789"
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,18 @@
+query ProductsGetByHighestRating($rate: Int!) {
+	products(where: { reviews_every: { rating: $rate } }) {
+		id
+		price
+		name
+		description
+		categories(first: 1) {
+			name
+		}
+		images(first: 1) {
+			url
+		}
+		reviews {
+			id
+			rating
+		}
+	}
+}
