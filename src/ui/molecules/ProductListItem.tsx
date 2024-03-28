@@ -1,9 +1,8 @@
-// ProductListItem.tsx
 import React from "react";
+import Link from "next/link";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { ProductItemDescription } from "@/ui/atoms/ProductItemDescription";
-import Link from "next/link";
-import { ProdutListItemFragment } from "@/gql/graphql";
+import { type ProdutListItemFragment } from "@/gql/graphql";
 
 export const ProductListItem = ({ product }: { product: ProdutListItemFragment }) => {
 	return (

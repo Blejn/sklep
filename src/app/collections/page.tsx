@@ -1,6 +1,6 @@
+import React from "react";
 import { CollectionList } from "@/ui/organisms/CollectionList";
 import { getCollections } from "@/utils/api/collections/getCollections";
-import React from "react";
 
 export default async function Page() {
 	const collection = await getCollections();

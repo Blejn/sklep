@@ -1,14 +1,40 @@
-import { ProductsGetByCategorySlugDocument, ProdutListItemFragment } from "@/gql/graphql";
 import { executeGraphql } from "../graphqlApi";
 
-export const getProductsByCategory = async ({ slug }: { slug: string }) => {
-	const getProductList = async (): Promise<ProdutListItemFragment[]> => {
-		const graphqlResponse = await executeGraphql(ProductsGetByCategorySlugDocument, {
-			slug: slug,
+import {
+	ProductsGetByCategorySlugDocument,
+	type ProductsGetByCategorySlugQuery,
+} from "@/gql/graphql";
+
+export const getProductsByCategory = async (category: string, pageNumber: string) => {
+	const getProductList = async ({
+		limit,
+		offset,
+		slug,
+	}: {
+		limit: number;
+		offset: number;
+		slug: string;
+	}): Promise<ProductsGetByCategorySlugQuery> => {
+		const graphqlResponse = await executeGraphql({
+			query: ProductsGetByCategorySlugDocument,
+			variables: {
+				limit: limit,
+				offset: offset,
+				slug: slug,
+			},
 		});
 
-		return graphqlResponse.categories[0]?.products || [];
+		return graphqlResponse;
 	};
 
-	return getProductList();
+	const data = await getProductList({
+		slug: category,
+		limit: 4,
+		offset: (parseInt(pageNumber) - 1) * 4,
+	});
+
+	const { edges, pageInfo, aggregate } = data.productsConnection;
+	const products = edges.map((edge) => edge.node);
+
+	return { products, pageInfo, aggregate };
 };

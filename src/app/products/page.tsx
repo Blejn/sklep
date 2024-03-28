@@ -1,9 +1,8 @@
+import { UseGetProducts } from "./useProducts";
 import { ProductsList } from "@/ui/organisms/ProductsList";
 
-import { useGetProducts } from "./useProducts";
-
 export default async function ProductsPage() {
-	const { products } = await useGetProducts();
+	const { products } = await UseGetProducts();
 	return (
 		<>
 			{" "}

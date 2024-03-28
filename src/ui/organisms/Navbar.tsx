@@ -1,27 +1,27 @@
-"use client";
-import { NavbarCategoriesType } from "@/utils/types/NavbarCategories";
-import { NavbarListItem } from "../molecules/NavbarListItem";
-import clsx from "clsx";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 
-export const Navbar = ({ navbarListItem }: { navbarListItem: NavbarCategoriesType[] }) => {
-	const [top, setTop] = useState(true);
-	useEffect(() => {
-		const scrollHeader = () => {
-			setTop(window.scrollY > 0);
-		};
-		return window.addEventListener("scroll", scrollHeader);
-	}, []);
+import clsx from "clsx";
+import { Logo } from "../atoms/Logo";
+import { NavbarListItem } from "../molecules/NavbarListItem";
+import { type NavbarCategoriesType } from "@/utils/types/NavbarCategories";
+import { getCartFromCookies } from "@/app/api/cart";
+
+
+export async function Navbar({ navbarListItem }: { navbarListItem: NavbarCategoriesType[] }) {
+	const cart = await getCartFromCookies();
+	const quantity = cart?.orderItems.length ?? 0;
 	return (
-		<nav
-			className={clsx(
-				"fixed z-10 flex  w-full flex-row justify-between p-2",
-				top && "backdrop-blur-lg backdrop-filter",
-			)}
-		>
+		<nav className={clsx("sticky top-0 z-10 flex  w-full flex-row justify-between p-2")}>
+			<Logo/> 
+			{" "}
 			<NavbarListItem navbarListItem={navbarListItem} />
-			<ShoppingCart />
+			<div className="flex flex-row">
+				{quantity}
+				<Link href="/cart" className="group m-2 flex h-full items-center p-2">
+					<ShoppingCart />
+				</Link>
+			</div>
 		</nav>
 	);
-};
+}

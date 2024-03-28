@@ -11,13 +11,15 @@ export const generateStaticParams = async ({ params }: { params: { collectionId:
 				pageNumber: "2",
 			},
 		];
+	} else {
+		return [];
 	}
 };
 
 export default async function CollectionProductPage({
-	params: { collectionId, pageNumber },
+	params: { collectionId },
 }: {
-	params: { collectionId: string; pageNumber: string };
+	params: { collectionId: string };
 }) {
 	const data = await getProductsByCollectionId(collectionId);
 	return (

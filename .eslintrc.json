@@ -1,8 +1,9 @@
 {
 	"$schema": "https://json.schemastore.org/eslintrc.json",
 	"plugins": ["@typescript-eslint", "import"],
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"project": "tsconfig.json"
+		"project": "./tsconfig.json"
 	},
 	"extends": [
 		"plugin:@typescript-eslint/recommended",
@@ -10,8 +11,7 @@
 		"plugin:import/recommended",
 		"plugin:import/typescript",
 		"prettier",
-		"next/core-web-vitals",
-		"plugin:@typescript-eslint/parser"
+		"next/core-web-vitals"
 	],
 	"rules": {
 		// sort imports
@@ -72,7 +72,14 @@
 			{ "allowNumber": true, "allowBoolean": true }
 		],
 
-		"@typescript-eslint/no-misused-promises": ["error", { "checksVoidReturn": false }],
+		"@typescript-eslint/no-misused-promises": [
+			"error",
+			{
+				"checksVoidReturn": {
+					"attributes": false
+				}
+			}
+		],
 
 		"no-restricted-imports": [
 			"error",

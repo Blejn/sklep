@@ -6,6 +6,7 @@ const nextConfig = {
 	experimental: {
 		typedRoutes: true,
 		mdxRs: true,
+		serverActions: true,
 	},
 	images: {
 		remotePatterns: [

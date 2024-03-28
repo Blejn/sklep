@@ -1,40 +1,38 @@
+import { Paggination } from "@/ui/organisms/Paggination";
 import { ProductsList } from "@/ui/organisms/ProductsList";
 import { getProductsByCategory } from "@/utils/api/products/getProductsByCategory";
 
-export const generateStaticParams = async ({ params }: { params: { category: string } }) => {
-	if (params.category == "t-shirts") {
-		return [
-			{
-				pageNumber: "1",
-			},
-			{
-				pageNumber: "2",
-			},
-		];
-	} else {
-		return [
-			{
-				pageNumber: "1",
-			},
-			{
-				pageNumber: "2",
-			},
-			{
-				pageNumber: "3",
-			},
-		];
-	}
-};
+// export async function generateStaticParams({
+// 	params: { category },
+// }: {
+// 	params: { category: string };
+// }) {
+// 	const { pageArray } = await getProductsByCategory(category, pageNumber);
+
+// 	return pageArray.map((pageNumber) => ({
+// 		pageNumber: pageNumber.toString(),
+// 	}));
+// }
 export default async function CategoryProductPage({
-	params: { category },
+	params: { category, pageNumber },
 }: {
 	params: { category: string; pageNumber: string };
 }) {
-	const products = await getProductsByCategory({ slug: category });
+	const { products, pageInfo, aggregate } = await getProductsByCategory(category, pageNumber);
+	const { count } = aggregate;
+
+	const pageTotal = Math.ceil(count / 4);
+	const pageArray = Array.from({ length: pageTotal }, (_, i) => i + 1);
+
 	return (
 		<>
 			<ProductsList products={products} />
-			<pre>{JSON.stringify(products, null, 2)}</pre>
+			<Paggination
+				pageInfo={pageInfo}
+				pageArray={pageArray}
+				category={category}
+				pageNumber={pageNumber}
+			/>
 		</>
 	);
 }

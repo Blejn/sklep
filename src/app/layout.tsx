@@ -10,6 +10,11 @@ const inter = Inter({
 	display: "swap",
 });
 
+export const metadata = {
+	title: "My way butik",
+    description:"My way butik"
+}
+
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -22,7 +27,7 @@ export default function RootLayout({
 
 				<section className="mx-auto max-w-screen-2xl p-12 ">{children}</section>
 				<footer className="text-center text-gray-700">
-					<p>© 2023 Sebastia Mazur</p>
+					<p>© 2024 Karina Mazur i Sylwia Wedler</p>
 				</footer>
 			</body>
 		</html>

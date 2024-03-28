@@ -1,9 +1,9 @@
 "use client";
+import { type UrlObject } from "url";
 import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
-import { UrlObject } from "url";
+import { type ReactNode } from "react";
 
 export const ActiveLink = ({ href, children }: { href: UrlObject; children: ReactNode }) => {
 	const pathname = usePathname();
@@ -11,7 +11,7 @@ export const ActiveLink = ({ href, children }: { href: UrlObject; children: Reac
 
 	return (
 		<Link
-			className={clsx("text-blue-400 hover:text-blue-900", isActive && `underline`)}
+			className={clsx("text-[#b79f97] hover:text-blue-900", isActive && `underline`)}
 			href={href}
 		>
 			{children}

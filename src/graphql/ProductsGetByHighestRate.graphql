@@ -6,6 +6,7 @@ query ProductsGetByHighestRating($rate: Int!) {
 		description
 		categories(first: 1) {
 			name
+			slug
 		}
 		images(first: 1) {
 			url

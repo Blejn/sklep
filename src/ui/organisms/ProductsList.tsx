@@ -1,6 +1,6 @@
 import React from "react";
 import { ProductListItem } from "@/ui/molecules/ProductListItem";
-import { ProdutListItemFragment } from "@/gql/graphql";
+import { type ProdutListItemFragment } from "@/gql/graphql";
 
 export const ProductsList = ({ products }: { products: ProdutListItemFragment[] }) => {
 	return (

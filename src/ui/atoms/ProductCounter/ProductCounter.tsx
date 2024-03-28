@@ -1,6 +1,6 @@
 "use client";
 import { useSelectedLayoutSegment, useSelectedLayoutSegments } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 export const ProductCounter = ({ children }: { children: ReactNode }) => {
 	const [counter, setCounter] = useState(0);

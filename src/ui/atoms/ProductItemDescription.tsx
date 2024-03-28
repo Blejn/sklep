@@ -1,7 +1,7 @@
 // ProductItemDescription.tsx
 import React from "react";
 import { formatMoney } from "@/utils";
-import { ProdutListItemFragment } from "@/gql/graphql";
+import { type ProdutListItemFragment } from "@/gql/graphql";
 
 type ProductItemDescriptionProps = {
 	product: ProdutListItemFragment;
