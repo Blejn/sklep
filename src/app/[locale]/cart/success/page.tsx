@@ -5,10 +5,10 @@ import Stripe from "stripe";
 export default async function SuccessPage({
 	searchParams,
 }: {
-	searchParams: { sessionId: string };
+	searchParams: { session_id: string };
 }) {
-	if (!searchParams.sessionId) {
-		redirect("/");
+	if (!searchParams.session_id) {
+		return redirect("/");
 	}
 
 	if (!process.env.SECRET_KEY) {
@@ -19,6 +19,6 @@ export default async function SuccessPage({
 		typescript: true,
 	});
 
-	const session = await stripe.checkout.sessions.retrieve(searchParams.sessionId);
+	const session = await stripe.checkout.sessions.retrieve(searchParams.session_id);
 	return <h2>{session.payment_status}</h2>;
 }

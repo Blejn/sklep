@@ -1,6 +1,5 @@
 import React from "react";
-
-import Link from "next/link";
+import { Link } from "@/navigation";
 
 export const CollectionListItem = ({ name, id }: { id: string; name: string }) => {
 	return (

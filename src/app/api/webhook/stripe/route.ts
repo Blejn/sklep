@@ -28,7 +28,6 @@ export async function POST(request: NextRequest): Promise<Response> {
     signature,	
     process.env.STRIPE_WEBHOOK_SECRET) as Stripe.DiscriminatedEvent;
 	console.log(event);
-
 	switch(event.type){
 		case "checkout.session.completed":{
 			event.data.object.metadata?.cartId;
@@ -36,7 +35,9 @@ export async function POST(request: NextRequest): Promise<Response> {
 		case"checkout.session.expired":{
 			event.data.previous_attributes
 		}
-		case"checkout.session.async_payment_failed":{}
+		case"checkout.session.async_payment_failed":{
+
+		}
 		case "checkout.session.async_payment_succeeded":{
 
 		}

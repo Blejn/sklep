@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { type Metadata } from "next";
 import { useGetProduct } from "./useProduct";
 import { SuggestedProductsList } from "@/ui/organisms/SuggestedProducts";
-import { UseGetProducts } from "@/app/products/useProducts";
+import { UseGetProducts } from "@/app/[locale]/products/useProducts";
 import { ProductDetails } from "@/ui/molecules/product/ProductDetails";
 
 export const generateMetadata = async ({

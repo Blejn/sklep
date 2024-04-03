@@ -1,8 +1,8 @@
 import React from "react";
-import Link from "next/link";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { ProductItemDescription } from "@/ui/atoms/ProductItemDescription";
 import { type ProdutListItemFragment } from "@/gql/graphql";
+import { Link } from "@/navigation";
 
 export const ProductListItem = ({ product }: { product: ProdutListItemFragment }) => {
 	return (

@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { Link } from "@/navigation";
+
 type PageInfoProps = {
 	hasNextPage: boolean;
 	hasPreviousPage: boolean;

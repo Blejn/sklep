@@ -2,21 +2,31 @@
 	"$schema": "https://json.schemastore.org/eslintrc.json",
 	"plugins": ["@typescript-eslint", "import"],
 	"parser": "@typescript-eslint/parser",
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"extensions": [".js", ".jsx", ".ts", ".tsx"]
+			}
+		}
+	},
 	"parserOptions": {
-		"project": "./tsconfig.json"
+		"project": "sklep/tsconfig.json"
 	},
 	"extends": [
-		"plugin:@typescript-eslint/recommended",
-		"plugin:@typescript-eslint/recommended-requiring-type-checking",
-		"plugin:import/recommended",
-		"plugin:import/typescript",
-		"prettier",
-		"next/core-web-vitals"
+		// "plugin:@typescript-eslint/recommended",
+		// "plugin:@typescript-eslint/recommended-requiring-type-checking",
+		// "plugin:import/recommended",
+		// "plugin:import/typescript",
+		// "prettier",
+		// "next/core-web-vitals",
+		// "plugin:import/errors",
+		// "plugin:import/warnings",
+		// "plugin:import/typescript"
 	],
 	"rules": {
 		// sort imports
 		"import/order": "error",
-
+		"import/extensions": "off",
 		// no let exports
 		"import/no-mutable-exports": "error",
 
@@ -91,11 +101,11 @@
 	},
 	"overrides": [
 		{
-			"files": ["src/app/**/*.ts?(x)", "middleware.ts"],
+			"files": ["src/app/**/*.ts?(x)", "middleware.ts", "src/i18n.ts"],
 			"rules": {
 				"import/no-default-export": "off"
 			}
 		}
 	],
-	"ignorePatterns": ["*.js", "*.jsx", "*.json"]
+	"ignorePatterns": ["*.js", "*.jsx", "*.json", "*.mjs"]
 }

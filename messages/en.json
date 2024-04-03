@@ -1,0 +1,17 @@
+{
+	"Contact": {
+		"title": "Contact"
+	},
+	"NavBar": {
+		"home": "Home",
+		"all": "All",
+		"tshirts": "T-shirts",
+		"hoodies": "Hoodies",
+		"accessories": "Accesories",
+		"collection": "Collection"
+	},
+	"LocaleSwitcher": {
+		"label": "Change language",
+		"locale": "{locale, select, pl {pl Poland} en {🇺🇸 English} other {Unknown}}"
+	}
+}

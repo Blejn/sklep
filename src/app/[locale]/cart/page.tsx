@@ -1,11 +1,11 @@
-import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
+import Stripe from "stripe";
+import { redirect } from "next/navigation";
 import { formatMoney } from "@/utils";
 import { getCartFromCookies } from "@/app/api/cart";
 import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
 import { RemoveButton } from "@/ui/atoms/RemoveButton";
-import Stripe from "stripe";
 
 export default async function CartPage() {
 	const cart = await getCartFromCookies();
@@ -44,12 +44,13 @@ export default async function CartPage() {
 				quantity: item.quantity,
 			})),
 			mode: "payment",
-			success_url: `http://localhost:3000/cart/success?session_id={CHECKOUT_SESSION_ID}`,
-			cancel_url: `http://localhost:3000/cart/canceled`,
+			success_url: `http://localhost:3000/en/cart/success?session_id={CHECKOUT_SESSION_ID}`,
+			cancel_url: `http://localhost:3000/en/cart/canceled`,
 		});
+		console.log(session.url);
 		if (session.url) {
 			cookies().set("cartId", "");
-			redirect(session.url);
+			return redirect(session.url);
 		}
 	}
 	return (

@@ -12,16 +12,20 @@ const inter = Inter({
 
 export const metadata = {
 	title: "My way butik",
-    description:"My way butik"
-}
+	description: "My way butik",
+};
 
 export default function RootLayout({
 	children,
+	modal,
+	params: { locale },
 }: Readonly<{
 	children: React.ReactNode;
+	modal: React.ReactNode;
+	params: { locale: string };
 }>) {
 	return (
-		<html lang="en">
+		<html lang={locale}>
 			<body className={inter.variable}>
 				<Navbar navbarListItem={navbarListItem} />
 
@@ -29,6 +33,7 @@ export default function RootLayout({
 				<footer className="text-center text-gray-700">
 					<p>© 2024 Karina Mazur i Sylwia Wedler</p>
 				</footer>
+				{modal}
 			</body>
 		</html>
 	);

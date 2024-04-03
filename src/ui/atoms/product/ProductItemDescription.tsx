@@ -10,8 +10,8 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { formatMoney } from "@/utils";
+import { getOrCreateCard } from "@/app/[locale]/cart/actions";
 import { addToCart } from "@/app/api/cart";
-import { getOrCreateCard } from "@/app/cart/actions";
 
 export const ProductDetailsDescription = (product: ProductsGetByIdQuery) => {
 	async function addToCardAction() {
