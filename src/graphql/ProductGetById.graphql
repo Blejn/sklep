@@ -11,6 +11,14 @@ query ProductsGetById($id: ID!) {
 			url
 		}
 		description
+		reviews {
+			id
+			content
+			name
+			email
+			headline
+			rating
+		}
 		variants {
 			... on ProductSizeColorVariant {
 				id

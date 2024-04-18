@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
-import { getCollections } from "@/utils/api/collections/getCollections";
+
+import { getCollections } from "@/api/collections/getCollections";
 
 export const generateStaticParams = async () => {
 	const data = await getCollections();

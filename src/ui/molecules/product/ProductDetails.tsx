@@ -1,4 +1,3 @@
-// ProductListItem.tsx
 import React from "react";
 import { type ProductsGetByIdQuery } from "@/gql/graphql";
 import { ProductDetailsImage } from "@/ui/atoms/product/ProductDetailsImage";

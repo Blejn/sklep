@@ -3,18 +3,15 @@ import { executeGraphql } from "../graphqlApi";
 import { ProductsGetByIdDocument, type ProductsGetByIdQuery } from "@/gql/graphql";
 
 
-export const getProductById = async ({ id }: { id: string }) => {
-	const getProduct = async (): Promise<ProductsGetByIdQuery> => {
+export const getProductById = async ({ id }: { id: string }): Promise<ProductsGetByIdQuery>  => {
 		const graphqlResponse = await executeGraphql({
 			query: ProductsGetByIdDocument,
 			variables: {
 				id: id,
 			},
-			next:{
-				revalidate:1
-			}
+			cache:"no-store",
 		});
 		return graphqlResponse;
-	};
-	return getProduct();
+	
+	return graphqlResponse
 };

@@ -1,4 +1,5 @@
 import { type TypedDocumentString } from "@/gql/graphql";
+import { environment } from "@/lib/environment";
 
 export async function executeGraphql<TResult, TVariables>({
 	query,
@@ -14,23 +15,33 @@ export async function executeGraphql<TResult, TVariables>({
 } & (TVariables extends { [key: string]: never }
 	? { variables?: never }
 	: { variables: TVariables })): Promise<TResult> {
-	if (!process.env.GRAPHQL_URL) {
-		throw TypeError("GRAPHQL_URL is not defined");
-	}
 
-	const res = await fetch(process.env.GRAPHQL_URL, {
-		method: "POST",
-		body: JSON.stringify({
-			query,
-			variables,
-		}),
-		cache,
-		next,
-		headers: {
-			...headers,
-			"Content-Type": "application/json",
-		},
-	});
+    const { GRAPHQL_URL } = environment;
+
+
+    const res = await fetch(`${GRAPHQL_URL}`, {
+        method: "POST",
+        body: JSON.stringify({
+            query,
+            variables,
+        }),
+        cache,
+        next,
+        headers: {
+            ...headers,
+            "Content-Type": "application/json",
+        },
+    });
+	type GraphqlResponse<T> =
+	| {
+			data?: undefined;
+			errors: { message: string }[];
+	  }
+	| {
+			data: T;
+			errors?: undefined;
+	  };
+
 
 
 	const graphqlResponse = (await res.json()) as GraphqlResponse<TResult>;
@@ -43,12 +54,3 @@ export async function executeGraphql<TResult, TVariables>({
 
 	return graphqlResponse.data;
 }
-type GraphqlResponse<T> =
-	| {
-			data?: undefined;
-			errors: { message: string }[];
-	  }
-	| {
-			data: T;
-			errors?: undefined;
-	  };

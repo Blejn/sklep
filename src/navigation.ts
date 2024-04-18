@@ -4,6 +4,7 @@ export const locales = ['en', 'pl'] as const;
 export const defaultLocale = "en" as const;
 export const localePrefix = 'always' as const; 
 export const pathnames={
+  '/': '/',
   "/restaurant":{
     en:"/restaurant",
     pl:'/restaruacja'
@@ -16,6 +17,30 @@ export const pathnames={
     en: "/cart/success",
     pl: "/koszyk/sukces"
   },
+  "/product/[id]":{
+    en: "/product/[id]",
+    pl: "/produkt/[id]"
+  },
+  "/products":{
+    en: "/products",
+    pl: "/produkty"
+  },
+  "/collections":{
+    en: "/collections",
+    pl: "/kolekcje"
+  },
+  "/text-mdx":{
+    en: "/text-mdx",
+    pl: "/text-mdx"
+  },
+  "/blog":{
+    en: "/blog",
+    pl: "/blog"
+  },
+  
+  
+  
+
 
 } satisfies Pathnames<typeof locales>;
  

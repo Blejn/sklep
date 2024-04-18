@@ -1,8 +1,8 @@
 "use client";
 import React, { useTransition } from "react";
 
-import { removeProductFromCart } from "@/app/[locale]/cart/actions";
 import { useRouter } from "@/navigation";
+import { removeProductFromCart } from "@/api/cart";
 
 export const RemoveButton = ({ orderItemId }: { orderItemId: string }) => {
 	const [isPending, startTransition] = useTransition();

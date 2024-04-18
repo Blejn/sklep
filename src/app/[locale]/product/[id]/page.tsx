@@ -1,17 +1,16 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
-import { useGetProduct } from "./useProduct";
 import { SuggestedProductsList } from "@/ui/organisms/SuggestedProducts";
-import { UseGetProducts } from "@/app/[locale]/products/useProducts";
 import { ProductDetails } from "@/ui/molecules/product/ProductDetails";
+import { getProductById } from "@/api/products/getProductById";
 
 export const generateMetadata = async ({
-	params,
+	params: { id },
 }: {
 	params: { id: string };
 }): Promise<Metadata> => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const productResponse = await useGetProduct(params["id"]);
+	const productResponse = await getProductById({ id: id });
 	const product = productResponse.product;
 
 	return {
@@ -24,21 +23,12 @@ export const generateMetadata = async ({
 		},
 	};
 };
-export const generateStaticParams = async () => {
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const { products } = await UseGetProducts();
-	return products
-		.map((product) => ({
-			id: product.id,
-		}))
-		.slice(0, 1);
-};
-export default async function SingleProductPage({ params }: { params: { id: string } }) {
-	const product = await useGetProduct(params["id"]);
 
+export default async function SingleProductPage({ params: { id } }: { params: { id: string } }) {
+	const product = await getProductById({ id: id });
 	return (
 		<div>
-			{product ? <ProductDetails product={product} /> : <></>}
+			<ProductDetails product={product} />
 			<aside>
 				<Suspense fallback={"...Ładowanie"}>
 					{" "}

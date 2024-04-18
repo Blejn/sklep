@@ -1,5 +1,5 @@
+import { getProductsByCollectionId } from "@/api/products/getProductsByCollection";
 import { ProductsList } from "@/ui/organisms/ProductsList";
-import { getProductsByCollectionId } from "@/utils/api/products/getProductsByCollection";
 
 export const generateStaticParams = async ({ params }: { params: { collectionId: string } }) => {
 	if ((params.collectionId = "ckdu452ug0gxm0158pysyubmr")) {

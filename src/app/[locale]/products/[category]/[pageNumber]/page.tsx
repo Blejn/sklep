@@ -1,6 +1,6 @@
+import { getProductsByCategory } from "@/api/products/getProductsByCategory";
 import { Paggination } from "@/ui/organisms/Paggination";
 import { ProductsList } from "@/ui/organisms/ProductsList";
-import { getProductsByCategory } from "@/utils/api/products/getProductsByCategory";
 
 // export async function generateStaticParams({
 // 	params: { category },

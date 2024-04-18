@@ -10,18 +10,18 @@
 		}
 	},
 	"parserOptions": {
-		"project": "sklep/tsconfig.json"
+		"project": "tsconfig.json"
 	},
 	"extends": [
-		// "plugin:@typescript-eslint/recommended",
-		// "plugin:@typescript-eslint/recommended-requiring-type-checking",
-		// "plugin:import/recommended",
-		// "plugin:import/typescript",
-		// "prettier",
-		// "next/core-web-vitals",
-		// "plugin:import/errors",
-		// "plugin:import/warnings",
-		// "plugin:import/typescript"
+		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		"plugin:import/recommended",
+		"plugin:import/typescript",
+		"prettier",
+		"next/core-web-vitals",
+		"plugin:import/errors",
+		"plugin:import/warnings",
+		"plugin:import/typescript"
 	],
 	"rules": {
 		// sort imports

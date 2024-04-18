@@ -1,8 +1,9 @@
 import { type ReactNode } from "react";
-import { UseGetProducts } from "../useProducts";
+import { getProducts } from "@/api/products/getProducts";
 
 export const generateStaticParams = async () => {
-	const { products } = await UseGetProducts();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const products = await getProducts();
 
 	return products.map((product) => ({
 		category: product.categories[0]?.slug,

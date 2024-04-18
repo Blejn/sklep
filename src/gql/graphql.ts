@@ -10730,6 +10730,17 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
+export type CreateReviewForProductMutationVariables = Exact<{
+  headline: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type CreateReviewForProductMutation = { createReview?: { id: string, headline: string, content: string, email: string, name: string, rating?: number | null } | null };
+
 export type CartAddProductMutationVariables = Exact<{
   quantity: Scalars['Int']['input'];
   total: Scalars['Int']['input'];
@@ -10783,7 +10794,7 @@ export type ProductsGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type ProductsGetByIdQuery = { product?: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor, size: ProductSize } | {}> } | null };
+export type ProductsGetByIdQuery = { product?: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, reviews: Array<{ id: string, content: string, name: string, email: string, headline: string, rating?: number | null }>, variants: Array<{ id: string, name: string, color: ProductColor, size: ProductSize } | {}> } | null };
 
 export type ProductGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10812,6 +10823,13 @@ export type ProductsGetSizeColorVariantsQueryVariables = Exact<{
 
 
 export type ProductsGetSizeColorVariantsQuery = { productSizeColorVariants: Array<{ color: ProductColor, size: ProductSize, name: string }> };
+
+export type PublishReviewForProductMutationVariables = Exact<{
+  reviewId: Scalars['ID']['input'];
+}>;
+
+
+export type PublishReviewForProductMutation = { publishReview?: { id: string } | null };
 
 export type RemoveProductFromCartMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10849,6 +10867,20 @@ export const ProdutListItemFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProdutListItem"}) as unknown as TypedDocumentString<ProdutListItemFragment, unknown>;
+export const CreateReviewForProductDocument = new TypedDocumentString(`
+    mutation CreateReviewForProduct($headline: String!, $name: String!, $content: String!, $email: String!, $productId: ID!) {
+  createReview(
+    data: {headline: $headline, name: $name, email: $email, content: $content, product: {connect: {id: $productId}}}
+  ) {
+    id
+    headline
+    content
+    email
+    name
+    rating
+  }
+}
+    `) as unknown as TypedDocumentString<CreateReviewForProductMutation, CreateReviewForProductMutationVariables>;
 export const CartAddProductDocument = new TypedDocumentString(`
     mutation CartAddProduct($quantity: Int!, $total: Int!, $orderId: ID!, $productId: ID!) {
   createOrderItem(
@@ -10959,6 +10991,14 @@ export const ProductsGetByIdDocument = new TypedDocumentString(`
       url
     }
     description
+    reviews {
+      id
+      content
+      name
+      email
+      headline
+      rating
+    }
     variants {
       ... on ProductSizeColorVariant {
         id
@@ -11040,6 +11080,13 @@ export const ProductsGetSizeColorVariantsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetSizeColorVariantsQuery, ProductsGetSizeColorVariantsQueryVariables>;
+export const PublishReviewForProductDocument = new TypedDocumentString(`
+    mutation PublishReviewForProduct($reviewId: ID!) {
+  publishReview(where: {id: $reviewId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<PublishReviewForProductMutation, PublishReviewForProductMutationVariables>;
 export const RemoveProductFromCartDocument = new TypedDocumentString(`
     mutation RemoveProductFromCart($id: ID!) {
   deleteOrderItem(where: {id: $id}) {

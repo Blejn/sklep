@@ -1,7 +1,9 @@
 import React from "react";
 import { AddToCartButton } from "../AddToCartButton";
+import { AddReviewSection } from "./AddReviewSection";
 
 import { type ProductsGetByIdQuery } from "@/gql/graphql";
+
 import {
 	Select,
 	SelectContent,
@@ -9,17 +11,23 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+
 import { formatMoney } from "@/utils";
 import { getOrCreateCard } from "@/app/[locale]/cart/actions";
-import { addToCart } from "@/app/api/cart";
+import { addToCart } from "@/api/cart";
 
 export const ProductDetailsDescription = (product: ProductsGetByIdQuery) => {
+	if (!product || !product.product) {
+		return null;
+	}
+
 	async function addToCardAction() {
 		"use server";
 		const cart = await getOrCreateCard();
 
 		cart && product.product && (await addToCart(cart.id, product.product?.id));
 	}
+
 	return (
 		<div className=" mt-2 flex flex-col justify-between p-2">
 			<div className="m-2 flex flex-col gap-2">
@@ -55,10 +63,17 @@ export const ProductDetailsDescription = (product: ProductsGetByIdQuery) => {
 			) : (
 				<></>
 			)}
-			<form action={addToCardAction}>
-				<input type="hidden" name="productId" value={product.product?.id} />
-				<AddToCartButton />
-			</form>
+			<div className="flex flex-row gap-1">
+				<form action={addToCardAction}>
+					<input type="hidden" name="productId" value={product.product?.id} />
+					<AddToCartButton />
+				</form>
+				{product.product?.id ? (
+					<AddReviewSection reviews={product.product.reviews} productId={product.product?.id} />
+				) : (
+					<></>
+				)}
+			</div>
 		</div>
 	);
 };

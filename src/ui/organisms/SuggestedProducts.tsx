@@ -1,5 +1,6 @@
 import { ProductsList } from "./ProductsList";
-import { getProductByHighestRate } from "@/utils/api/products/getProductsByHighestRate";
+
+import { getProductByHighestRate } from "@/api/products/getProductsByHighestRate";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

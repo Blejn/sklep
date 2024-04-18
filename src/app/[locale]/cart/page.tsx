@@ -1,9 +1,10 @@
 import { cookies } from "next/headers";
-
-import Stripe from "stripe";
 import { redirect } from "next/navigation";
+import Stripe from "stripe";
+
+import { getCartFromCookies } from "./actions";
+
 import { formatMoney } from "@/utils";
-import { getCartFromCookies } from "@/app/api/cart";
 import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
 import { RemoveButton } from "@/ui/atoms/RemoveButton";
 

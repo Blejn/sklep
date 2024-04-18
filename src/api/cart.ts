@@ -1,27 +1,15 @@
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
 
+import { executeGraphql } from "@/api/graphqlApi";
 import {
 	CartAddProductDocument,
 	CartCreateDocument,
-	CartGetByIdDocument,
-	ProductsGetByIdDocument
+	ProductsGetByIdDocument,
+	RemoveProductFromCartDocument
 } from "@/gql/graphql";
-import { executeGraphql } from "@/utils/api/graphqlApi";
 
 
-export async function getCartFromCookies() {
-	const cartId = cookies().get("cartId")?.value;
-	if (cartId) {
-		const cart = await executeGraphql({
-			query: CartGetByIdDocument,
-			variables: { id: cartId },
-		});
-		if (cart.order) {
-			return cart.order;
-		}
-	}
-}
+
 
 export function createCart() {
 	return executeGraphql({
@@ -65,5 +53,22 @@ export async function addToCart(orderId: string, productId: string) {
 	revalidateTag("cart");
 
 	return (await graphqlResponse).createOrderItem;
+}
+
+export async function removeProductFromCart(orderItemId:string){
+	const graphqlResponse = executeGraphql({
+		query:RemoveProductFromCartDocument,
+		variables:{
+			id:orderItemId
+		},
+        next:{
+			tags:["product"]
+		}
+
+	});
+
+
+
+	return (await graphqlResponse).deleteOrderItem;
 }
 

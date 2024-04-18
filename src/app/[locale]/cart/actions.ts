@@ -3,9 +3,23 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-import { createCart, getCartFromCookies } from "@/app/api/cart";
-import { CartSetProductQuantityDocument, RemoveProductFromCartDocument } from "@/gql/graphql";
-import { executeGraphql } from "@/utils/api/graphqlApi";
+import { createCart, } from "@/api/cart";
+import { executeGraphql } from "@/api/graphqlApi";
+import { CartGetByIdDocument, CartSetProductQuantityDocument } from "@/gql/graphql";
+
+
+export async function getCartFromCookies() {
+	const cartId = cookies().get("cartId")?.value;
+	if (cartId) {
+		const cart = await executeGraphql({
+			query: CartGetByIdDocument,
+			variables: { id: cartId },
+		});
+		if (cart.order) {
+			return cart.order;
+		}
+	}
+}
 
 export const changeQuantity = async (itemId: string, quantity: number) => {
 	const graphqlResponse =  await executeGraphql({
@@ -47,15 +61,3 @@ export async function getOrCreateCard() {
 	return cart.createOrder;
 }
 
-export async function removeProductFromCart(orderItemId:string){
-	const graphqlResponse = executeGraphql({
-		query:RemoveProductFromCartDocument,
-		variables:{
-			id:orderItemId
-		},
-
-	});
-
-
-	return (await graphqlResponse).deleteOrderItem;
-}

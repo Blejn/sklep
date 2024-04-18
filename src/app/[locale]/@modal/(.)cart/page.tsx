@@ -1,4 +1,5 @@
-import { getCartFromCookies } from "@/app/api/cart";
+import { getCartFromCookies } from "../../cart/actions";
+
 import { Overlay } from "@/ui/atoms/Overlay";
 
 export default async function ModalCart() {
@@ -13,10 +14,11 @@ export default async function ModalCart() {
 
 	return (
 		<>
-			<Overlay />
-			<div className="absolute right-0 top-0 z-40 h-screen w-full max-w-sm bg-white">
-				<ul>{cart?.orderItems.map((item) => <li key={item.id}>{item.product?.name}</li>)}</ul>
-			</div>
+			<Overlay>
+				<div className="absolute right-0 top-0 z-40 h-screen w-full max-w-sm bg-white">
+					<ul>{cart?.orderItems.map((item) => <li key={item.id}>{item.product?.name}</li>)}</ul>
+				</div>
+			</Overlay>
 		</>
 	);
 }
