@@ -1,8 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import { QueryClient } from "@tanstack/react-query";
 import { Navbar } from "@/ui/organisms/Navbar";
 import { navbarListItem } from "@/utils/mocks/navbarCategoriesData";
+import { ReactQueryProvider } from "@/utils/query-provider";
 
 const inter = Inter({
 	subsets: ["latin", "latin-ext"],
@@ -27,13 +28,15 @@ export default function RootLayout({
 	return (
 		<html lang={locale}>
 			<body className={inter.variable}>
-				<Navbar navbarListItem={navbarListItem} />
-
-				<section className="mx-auto max-w-screen-2xl p-12 ">{children}</section>
-				<footer className="text-center text-gray-700">
-					<p>© 2024 Karina Mazur i Sylwia Wedler</p>
-				</footer>
-				{modal}
+				<ReactQueryProvider>
+					{" "}
+					<Navbar navbarListItem={navbarListItem} />
+					<section className="mx-auto max-w-screen-2xl p-12 ">{children}</section>
+					<footer className="text-center text-gray-700">
+						<p>© 2024 Karina Mazur i Sylwia Wedler</p>
+					</footer>
+					{modal}
+				</ReactQueryProvider>
 			</body>
 		</html>
 	);

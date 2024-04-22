@@ -37,6 +37,18 @@ export const pathnames={
     en: "/blog",
     pl: "/blog"
   },
+  "/real-state":{
+    en:"real-state",
+    pl:"rynek-nieruchomości"
+  },
+  "/real-state/rent":{
+    en:"/real-state/rent",
+    pl:"/real-state/wynajem",
+  }
+
+  
+ 
+  
   
   
   
