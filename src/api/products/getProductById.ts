@@ -1,9 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { executeGraphql } from "../graphqlApi";
 
 import { ProductsGetByIdDocument, type ProductsGetByIdQuery } from "@/gql/graphql";
 
 
-export const getProductById = async ({ id }: { id: string }): Promise<ProductsGetByIdQuery>  => {
+export const fetchProductById = async (id:string): Promise<ProductsGetByIdQuery>  => {
 		const graphqlResponse = await executeGraphql({
 			query: ProductsGetByIdDocument,
 			variables: {
@@ -15,3 +16,12 @@ export const getProductById = async ({ id }: { id: string }): Promise<ProductsGe
 	
 	return graphqlResponse
 };
+
+export const getProductById = async (id:string)=>{
+	return useQuery({
+		queryFn:async()=>fetchProductById(id),
+		queryKey:["product"]
+	})
+}
+
+

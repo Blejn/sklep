@@ -3,7 +3,7 @@ import { type ProductsGetByIdQuery } from "@/gql/graphql";
 import { ProductDetailsImage } from "@/ui/atoms/product/ProductDetailsImage";
 import { ProductDetailsDescription } from "@/ui/atoms/product/ProductItemDescription";
 
-export const ProductDetails = ({ product }: { product: ProductsGetByIdQuery }) => {
+export const ProductDetails = (product: ProductsGetByIdQuery) => {
 	return (
 		<div className="flex flex-row overflow-hidden rounded-md shadow-md">
 			<article className="flex flex-row">

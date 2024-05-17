@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Link } from "@/navigation";
+import Link from "next/link";
 
 export const Logo = () => {
 	return (

@@ -1,7 +1,7 @@
 "use client";
 import { startTransition, useOptimistic } from "react";
+import { changeQuantity } from "@/app/cart/actions";
 
-import { changeQuantity } from "@/app/[locale]/cart/actions";
 export const IncrementProductQuantity = ({
 	quantity,
 	itemId,
