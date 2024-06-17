@@ -1,19 +1,19 @@
 import { getProductsByCollectionId } from "@/api/products/getProductsByCollection";
 
-export const generateStaticParams = async ({ params }: { params: { collectionId: string } }) => {
-	if ((params.collectionId = "ckdu452ug0gxm0158pysyubmr")) {
-		return [
-			{
-				pageNumber: "1",
-			},
-			{
-				pageNumber: "2",
-			},
-		];
-	} else {
-		return [];
-	}
-};
+// export const generateStaticParams = async ({ params }: { params: { collectionId: string } }) => {
+// 	if ((params.collectionId = "ckdu452ug0gxm0158pysyubmr")) {
+// 		return [
+// 			{
+// 				pageNumber: "1",
+// 			},
+// 			{
+// 				pageNumber: "2",
+// 			},
+// 		];
+// 	} else {
+// 		return [];
+// 	}
+// };
 
 export default async function CollectionProductPage({
 	params: { collectionId },

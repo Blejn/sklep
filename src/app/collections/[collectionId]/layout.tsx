@@ -1,14 +1,14 @@
 import { type ReactNode } from "react";
 
-import { fetchCollectionsList } from "@/server/collection";
+// import { fetchCollectionsList } from "@/server/collection";
 
-export const generateStaticParams = async () => {
-	const data = await fetchCollectionsList();
+// export const generateStaticParams = async () => {
+// 	const data = await fetchCollectionsList();
 
-	return data.map((collection) => {
-		return { collection: collection.id };
-	});
-};
+// 	return data.map((collection) => {
+// 		return { collection: collection.id };
+// 	});
+// };
 export default function CollectionProductLayout({ children }: { children: ReactNode }) {
 	return <>{children}</>;
 }
