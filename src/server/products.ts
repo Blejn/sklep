@@ -64,6 +64,7 @@ export const fetchProductById = async (id:string): Promise<ProductsGetByIdQuery[
 		variables: {
 			id: id,
 		},
+		next:{tags:["product"]},
 		cache:"force-cache",
 	});
 

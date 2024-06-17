@@ -30,7 +30,8 @@ export async function fetchCart() {
 		const cart = await executeGraphql({
 			query: CartGetByIdDocument,
 			variables: { id: cartId },
-			next:{tags:['cart']}
+			next:{tags:['cart']},
+			cache:"force-cache"
 		});
 		if (cart.order) {
 			return cart.order;
@@ -45,6 +46,8 @@ export async function fetchCartById(cartId:string) {
 		const cart = await executeGraphql({
 			query: CartGetByIdDocument,
 			variables: { id: cartId },
+			next:{tags:['cart']},
+			cache:"force-cache"
 		});
 		if (cart.order) {
 			return cart.order;
@@ -58,9 +61,6 @@ export const changeQuantityMutation = async (itemId: string, quantity: number) =
 		variables: {
 			quantity: quantity,
 			itemId: itemId,
-		},
-		next: {
-			tags: ["cart"],
 		},
 	});
 	revalidateTag("cart")
@@ -100,9 +100,6 @@ export async function removeProductFromCart(orderItemId:string){
 		variables:{
 			id:orderItemId
 		},
-        next:{
-			tags:["product"]
-		},
 		headers:{
 			Authorization:`${environment.HYGRAPH_MUTATION_TOKEN}`
 		}
@@ -121,6 +118,8 @@ export async function getCartFromCookies() {
 		const cart = await executeGraphql({
 			query: CartGetByIdDocument,
 			variables: { id: cartId },
+			next:{tags:["cart"]},
+			cache:"force-cache"
 		});
 		if (cart.order) {
 			return cart.order;
@@ -207,6 +206,8 @@ export  async function createCart() {
 			email: "sebastian.mazur.p@gmail.com",
 			stripeCheckoutId: "1",
 		},
+		next:{tags:["cart"]},
+		cache:"force-cache",
 		headers:{
 			'Authorization':`Bearer ${HYGRAPH_MUTATION_TOKEN}`
 		}
@@ -221,6 +222,7 @@ return executeGraphql({
 	variables:{
 		orderId:id
 	},
+
 	headers:{
 		'Authorization':`Bearer ${HYGRAPH_MUTATION_TOKEN}`
 	}
@@ -256,8 +258,6 @@ export async function addToCart(orderId: string, productId: string) {
 		variables: {
 			id: productId,
 		},
-		cache:"no-store"
-
 	});
 
 	if (!product) {
@@ -274,19 +274,20 @@ export async function addToCart(orderId: string, productId: string) {
 			orderId: orderId,
 			productId: productId,
 		},
-		next: {
-			tags: ["cart"], 
-		},
 		headers:{
 			Authorization:`${environment.HYGRAPH_MUTATION_TOKEN}`
 		}
 	});
-	if(graphqlResponse.createOrderItem){
-		console.log(graphqlResponse.createOrderItem?.id);
-	await publishOrderLineItem(graphqlResponse.createOrderItem?.id);
-	}
-	revalidateTag("cart");
 
+	if(graphqlResponse.createOrderItem){
+	
+	await publishOrderLineItem(graphqlResponse.createOrderItem?.id);
+	revalidateTag("cart");
 	return graphqlResponse.createOrderItem;
+
+	}
+
+	
+	
 }
 
