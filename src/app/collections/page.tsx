@@ -1,15 +1,18 @@
 import React from "react";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { CollectionList } from "@/ui/organisms/CollectionList";
-import { getCollections } from "@/api/collections/getCollections";
+import { fetchCollectionsList } from "@/server/collection";
 
 export default async function Page() {
-	const collection = await getCollections();
+	const queryClient = new QueryClient();
+	await queryClient.prefetchQuery({
+		queryKey: ["collections"],
+		queryFn: () => fetchCollectionsList(),
+	});
 
 	return (
-		<>
-			{" "}
-			<CollectionList data={collection} />
-			<pre>{JSON.stringify(collection)}</pre>
-		</>
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<CollectionList />
+		</HydrationBoundary>
 	);
 }

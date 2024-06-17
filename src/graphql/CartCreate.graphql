@@ -1,5 +1,8 @@
 mutation CartCreate($total: Int!, $email: String!, $stripeCheckoutId: String!) {
 	createOrder(data: { total: $total, email: $email, stripeCheckoutId: $stripeCheckoutId }) {
 		id
+		orderItems {
+			id
+		}
 	}
 }

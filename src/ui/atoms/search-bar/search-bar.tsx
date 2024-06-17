@@ -24,14 +24,20 @@ export const SearchBar = () => {
 		const { value } = event.target;
 		setQueryParam(value);
 	};
+	const isSearchBarAvailable =
+		pathname.startsWith("/products") ||
+		pathname.startsWith("/category") ||
+		pathname.startsWith("/collections");
 
 	return (
-		<Input
-			value={searchQuery}
-			onChange={changeQueryHandler}
-			className=""
-			type="text"
-			placeholder="Search"
-		/>
+		isSearchBarAvailable && (
+			<Input
+				value={searchQuery}
+				onChange={changeQueryHandler}
+				className=""
+				type="text"
+				placeholder="Search"
+			/>
+		)
 	);
 };

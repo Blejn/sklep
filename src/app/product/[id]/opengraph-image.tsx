@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-import { getProductById } from "@/api/products/getProductById";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProductById } from "@/server/products";
 
 export const contentType = "image/png";
 export const runtime = "edge";
@@ -10,7 +11,11 @@ export const size = {
 };
 
 export default async function Image({ params: { id } }: { params: { id: string } }) {
-	const { data: product, isLoading, isError } = await getProductById(id);
+	const {
+		data: product,
+		isLoading,
+		isError,
+	} = useQuery({ queryKey: ["product"], queryFn: () => fetchProductById(id) });
 	if (isError) return <div>Error</div>;
 	if (isLoading) return <div>...Loading</div>;
 	if (product)
@@ -31,10 +36,8 @@ export default async function Image({ params: { id } }: { params: { id: string }
 						padding: "50px",
 					}}
 				>
-					<h1 style={{ margin: "0 0 20px 0", textAlign: "center" }}>{product.product?.name}</h1>
-					<p style={{ margin: "0 0 20px 0", textAlign: "center" }}>
-						{product.product?.description}
-					</p>
+					<h1 style={{ margin: "0 0 20px 0", textAlign: "center" }}>{product?.name}</h1>
+					<p style={{ margin: "0 0 20px 0", textAlign: "center" }}>{product?.description}</p>
 					<span
 						style={{
 							backgroundColor: "#ffffffaa",
@@ -43,11 +46,12 @@ export default async function Image({ params: { id } }: { params: { id: string }
 							borderRadius: "5px",
 						}}
 					>
-						Kategoria: {product.product?.categories[0]?.name}
+						Kategoria: {product.categories[0]?.name}
 					</span>
-					{product.product?.images[0] ? (
+					{product?.images[0] ? (
+						// eslint-disable-next-line @next/next/no-img-element
 						<img
-							src={product.product?.images[0].url}
+							src={product?.images[0].url}
 							alt="Miniaturka produktu"
 							style={{
 								maxWidth: "100%",

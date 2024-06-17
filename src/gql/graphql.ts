@@ -10758,7 +10758,7 @@ export type CartCreateMutationVariables = Exact<{
 }>;
 
 
-export type CartCreateMutation = { createOrder?: { id: string } | null };
+export type CartCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string }> } | null };
 
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10779,6 +10779,13 @@ export type GetCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCollectionsQuery = { collections: Array<{ id: string, name: string, description?: string | null }> };
+
+export type GetOrdersByEmailQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetOrdersByEmailQuery = { ordersConnection: { edges: Array<{ node: { id: string, total: number, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number, images: Array<{ url: string }> } | null }> } }> } };
 
 export type ProductsGetByCategorySlugQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
@@ -10828,6 +10835,20 @@ export type ProductsGetSizeColorVariantsQueryVariables = Exact<{
 
 
 export type ProductsGetSizeColorVariantsQuery = { productSizeColorVariants: Array<{ color: ProductColor, size: ProductSize, name: string }> };
+
+export type PublishOrderByIdMutationVariables = Exact<{
+  orderId: Scalars['ID']['input'];
+}>;
+
+
+export type PublishOrderByIdMutation = { publishOrder?: { id: string } | null };
+
+export type PublishLineItemByIdMutationVariables = Exact<{
+  orderLineItemId: Scalars['ID']['input'];
+}>;
+
+
+export type PublishLineItemByIdMutation = { publishOrderItem?: { id: string } | null };
 
 export type PublishReviewForProductMutationVariables = Exact<{
   reviewId: Scalars['ID']['input'];
@@ -10901,6 +10922,9 @@ export const CartCreateDocument = new TypedDocumentString(`
     data: {total: $total, email: $email, stripeCheckoutId: $stripeCheckoutId}
   ) {
     id
+    orderItems {
+      id
+    }
   }
 }
     `) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
@@ -10944,6 +10968,31 @@ export const GetCollectionsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetCollectionsQuery, GetCollectionsQueryVariables>;
+export const GetOrdersByEmailDocument = new TypedDocumentString(`
+    query GetOrdersByEmail($email: String!) {
+  ordersConnection(where: {email: $email}) {
+    edges {
+      node {
+        id
+        total
+        orderItems {
+          id
+          total
+          quantity
+          product {
+            id
+            name
+            price
+            images(first: 1) {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOrdersByEmailQuery, GetOrdersByEmailQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($limit: Int!, $offset: Int!, $slug: String!, $search: String!) {
   productsConnection(
@@ -11100,6 +11149,20 @@ export const ProductsGetSizeColorVariantsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetSizeColorVariantsQuery, ProductsGetSizeColorVariantsQueryVariables>;
+export const PublishOrderByIdDocument = new TypedDocumentString(`
+    mutation PublishOrderById($orderId: ID!) {
+  publishOrder(where: {id: $orderId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<PublishOrderByIdMutation, PublishOrderByIdMutationVariables>;
+export const PublishLineItemByIdDocument = new TypedDocumentString(`
+    mutation PublishLineItemById($orderLineItemId: ID!) {
+  publishOrderItem(where: {id: $orderLineItemId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<PublishLineItemByIdMutation, PublishLineItemByIdMutationVariables>;
 export const PublishReviewForProductDocument = new TypedDocumentString(`
     mutation PublishReviewForProduct($reviewId: ID!) {
   publishReview(where: {id: $reviewId}) {

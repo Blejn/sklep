@@ -1,10 +1,11 @@
 import { type ReactNode } from "react";
 
-import { getCollections } from "@/api/collections/getCollections";
+import { fetchCollectionsList } from "@/server/collection";
 
 export const generateStaticParams = async () => {
-	const data = await getCollections();
-	return data.collections.map((collection) => {
+	const data = await fetchCollectionsList();
+
+	return data.map((collection) => {
 		return { collection: collection.id };
 	});
 };

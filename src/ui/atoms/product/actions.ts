@@ -1,9 +1,8 @@
 "use server"
 
-import { addToCart } from '@/api/cart';
 import { createReviewForProduct, publishReviewForProduct } from '@/api/products/createReview';
-import { getOrCreateCard } from '@/app/cart/actions';
 import { type ReviewSchemaDto } from "@/lib/schema/review-schema";
+import { addToCart, getOrCreateCard } from '@/server/cart';
 
 export async function createReviewForProductAction (review: ReviewSchemaDto,productId:string) {
 

@@ -14,16 +14,17 @@ import {
 
 
 
-export const fetchProducts = async (pageNumber:string,search?:string): Promise<ProductsGetListQuery['productsConnection']>  => {
+export const fetchProducts = async (pageNumber?:string,search?:string): Promise<ProductsGetListQuery['productsConnection']>  => {
 	console.log('search',search)
     const graphqlResponse = await executeGraphql({
          query: ProductsGetListDocument,
 		 variables:{
          limit:8,
-         offset:(parseInt(pageNumber) - 1) * 8,
+         offset:pageNumber ? (parseInt(pageNumber) - 1) * 8 : 0,
 		 search: search? search : ""
 		 },
-         cache:"no-store" });
+		 next:{tags:["products"]},
+         cache:"force-cache" });
 
 		 if(!graphqlResponse){
 			throw new Error("Bad response");
@@ -44,7 +45,11 @@ export const fetchProductsByCategory = async (category: string, pageNumber: stri
 				slug: category,
 				search:search ? search : ""
 			},
+			next:{tags:["category"]},
+			cache:"force-cache" 
 		});
+			
+
 
 		if(!graphqlResponse){
 			throw new Error("Bad response");
@@ -59,7 +64,7 @@ export const fetchProductById = async (id:string): Promise<ProductsGetByIdQuery[
 		variables: {
 			id: id,
 		},
-		cache:"no-store",
+		cache:"force-cache",
 	});
 
 return graphqlResponse.product

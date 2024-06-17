@@ -1,6 +1,6 @@
 "use client";
 import { startTransition, useOptimistic } from "react";
-import { changeQuantity } from "@/app/cart/actions";
+import { changeQuantityMutation } from "@/server/cart";
 
 export const IncrementProductQuantity = ({
 	quantity,
@@ -16,7 +16,7 @@ export const IncrementProductQuantity = ({
 			startTransition(() => {
 				setOptimisticQuantity(optimisticQuantity + 1);
 			});
-			await changeQuantity(itemId, optimisticQuantity + 1);
+			await changeQuantityMutation(itemId, optimisticQuantity + 1);
 		} catch (error) {
 			startTransition(() => {
 				setOptimisticQuantity(optimisticQuantity);
@@ -29,7 +29,7 @@ export const IncrementProductQuantity = ({
 			startTransition(() => {
 				setOptimisticQuantity(optimisticQuantity - 1);
 			});
-			await changeQuantity(itemId, optimisticQuantity - 1);
+			await changeQuantityMutation(itemId, optimisticQuantity - 1);
 		} catch (error) {
 			startTransition(() => {
 				setOptimisticQuantity(optimisticQuantity);

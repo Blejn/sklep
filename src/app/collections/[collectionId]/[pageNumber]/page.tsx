@@ -1,5 +1,4 @@
 import { getProductsByCollectionId } from "@/api/products/getProductsByCollection";
-import { ProductsList } from "@/ui/organisms/ProductsList";
 
 export const generateStaticParams = async ({ params }: { params: { collectionId: string } }) => {
 	if ((params.collectionId = "ckdu452ug0gxm0158pysyubmr")) {
@@ -24,7 +23,7 @@ export default async function CollectionProductPage({
 	const data = await getProductsByCollectionId(collectionId);
 	return (
 		<>
-			{<ProductsList products={data.collection?.products ? data.collection?.products : []} />}
+			{/* {<ProductsList products={data.collection?.products ? data.collection?.products : []} />} */}
 			<pre>{JSON.stringify(data)}</pre>
 		</>
 	);

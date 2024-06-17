@@ -1,13 +1,27 @@
+"use client";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { CollectionListItem } from "../molecules/collection/CollectionListItem";
-import { type GetCollectionsQuery } from "@/gql/graphql";
+import { fetchCollectionsList } from "@/server/collection";
 
-export const CollectionList = ({ data }: { data: GetCollectionsQuery }) => {
-	return (
+export function CollectionList() {
+	const {
+		data: collections,
+		isLoading,
+		isError,
+	} = useQuery({
+		queryKey: ["collections"],
+		queryFn: () => fetchCollectionsList(),
+	});
+	if (isLoading) return <div>Loading...</div>;
+	if (isError) return <div>Sorry cant get any collections</div>;
+	return collections ? (
 		<ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-			{data.collections.map((collection) => {
+			{collections.map((collection) => {
 				return <CollectionListItem key={collection.id} id={collection.id} name={collection.name} />;
 			})}
 		</ul>
+	) : (
+		<div>Sorry cant get any collections</div>
 	);
-};
+}

@@ -1,24 +1,18 @@
-import { getCartFromCookies } from "../../cart/actions";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import { CartModal } from "@/ui/organisms/CartModal";
 
-import { Overlay } from "@/ui/atoms/Overlay";
+import { fetchCart } from "@/server/cart";
 
-export default async function ModalCart() {
-	const cart = await getCartFromCookies();
-	if (cart?.orderItems && cart?.orderItems.length < 1) {
-		return (
-			<div className="absolute inset-0 z-30 bg-slate-700 bg-opacity-75">
-				<div className="absoulte flex h-screen w-full items-center ">NO ORDER</div>
-			</div>
-		);
-	}
+export default async function Page() {
+	const queryClient = new QueryClient();
+	await queryClient.prefetchQuery({
+		queryKey: ["cart"],
+		queryFn: async () => fetchCart(),
+	});
 
 	return (
-		<>
-			<Overlay>
-				<div className="absolute right-0 top-0 z-40 h-screen w-full max-w-sm bg-white">
-					<ul>{cart?.orderItems.map((item) => <li key={item.id}>{item.product?.name}</li>)}</ul>
-				</div>
-			</Overlay>
-		</>
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<CartModal />
+		</HydrationBoundary>
 	);
 }
