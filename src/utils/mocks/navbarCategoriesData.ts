@@ -7,19 +7,19 @@ export const navbarListItem: NavbarCategoriesType[] = [
 	},
 	{
 		name: "All",
-		href: "/products" ,
+		href: "/products/1" ,
 	},
 	{
 		name: "T-shirts",
-		href: "/products/t-shirts/1"
+		href: "/category/t-shirts/1"
 	},
 	{
 		name: "Hoodies",
-		href: "/products/hoodies/1"
+		href: "/category/hoodies/1"
 	},
 	{
 		name: "Accessories",
-		href: "/products/accessories/1"
+		href: "/category/accessories/1"
 	},
 	{
 		name: "Kolekcje",

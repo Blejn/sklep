@@ -1,5 +1,9 @@
-query ProductsGetByCategorySlug($limit: Int!, $offset: Int!, $slug: String!) {
-	productsConnection(first: $limit, skip: $offset, where: { categories_every: { slug: $slug } }) {
+query ProductsGetByCategorySlug($limit: Int!, $offset: Int!, $slug: String!, $search: String!) {
+	productsConnection(
+		first: $limit
+		skip: $offset
+		where: { categories_every: { slug: $slug }, _search: $search }
+	) {
 		edges {
 			node {
 				...ProdutListItem

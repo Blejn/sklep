@@ -4,7 +4,7 @@ import { loadEnvConfig } from "@next/env";
 loadEnvConfig(process.cwd());
 
 const config: CodegenConfig = {
-	schema: process.env["NEXT_PUBLIC_GRAPHQL_URL"],
+	schema: "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clt0jgxsw000008ks11o0c2bf/master",
 	overwrite: true,
 	ignoreNoDocuments: true,
 	documents: ["src/graphql/*.graphql"],

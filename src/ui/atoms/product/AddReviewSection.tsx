@@ -4,6 +4,7 @@ import { useOptimistic, useTransition } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { createReviewForProductAction } from "./actions";
 import { ReviewSchema, type ReviewSchemaDto } from "@/lib/schema/review-schema";
 import { Input } from "@/components/ui/input";
 
@@ -15,9 +16,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { createReviewForProduct, publishReviewForProduct } from "@/api/products/createReview";
 import { Button } from "@/components/ui/button";
-import { createReviewForProductAction } from "./actions";
 
 export const AddReviewSection = ({
 	reviews,

@@ -1,0 +1,5 @@
+mutation PublishLineItemById($orderLineItemId: ID!) {
+	publishOrderItem(where: { id: $orderLineItemId }) {
+		id
+	}
+}

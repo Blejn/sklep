@@ -10758,7 +10758,7 @@ export type CartCreateMutationVariables = Exact<{
 }>;
 
 
-export type CartCreateMutation = { createOrder?: { id: string } | null };
+export type CartCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string }> } | null };
 
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10780,10 +10780,18 @@ export type GetCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCollectionsQuery = { collections: Array<{ id: string, name: string, description?: string | null }> };
 
+export type GetOrdersByEmailQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetOrdersByEmailQuery = { ordersConnection: { edges: Array<{ node: { id: string, total: number, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, price: number, images: Array<{ url: string }> } | null }> } }> } };
+
 export type ProductsGetByCategorySlugQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
   offset: Scalars['Int']['input'];
   slug: Scalars['String']['input'];
+  search: Scalars['String']['input'];
 }>;
 
 
@@ -10796,10 +10804,14 @@ export type ProductsGetByIdQueryVariables = Exact<{
 
 export type ProductsGetByIdQuery = { product?: { id: string, name: string, price: number, slug: string, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, reviews: Array<{ id: string, content: string, name: string, email: string, headline: string, rating?: number | null }>, variants: Array<{ id: string, name: string, color: ProductColor, size: ProductSize } | {}> } | null };
 
-export type ProductGetListQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsGetListQueryVariables = Exact<{
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  search: Scalars['String']['input'];
+}>;
 
 
-export type ProductGetListQuery = { products: Array<{ id: string, price: number, name: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }> };
+export type ProductsGetListQuery = { productsConnection: { edges: Array<{ cursor: string, node: { id: string, price: number, name: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> } }>, pageInfo: { hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, pageSize?: number | null }, aggregate: { count: number } } };
 
 export type ProdutListItemFragment = { id: string, price: number, name: string, description: string, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> };
 
@@ -10823,6 +10835,20 @@ export type ProductsGetSizeColorVariantsQueryVariables = Exact<{
 
 
 export type ProductsGetSizeColorVariantsQuery = { productSizeColorVariants: Array<{ color: ProductColor, size: ProductSize, name: string }> };
+
+export type PublishOrderByIdMutationVariables = Exact<{
+  orderId: Scalars['ID']['input'];
+}>;
+
+
+export type PublishOrderByIdMutation = { publishOrder?: { id: string } | null };
+
+export type PublishLineItemByIdMutationVariables = Exact<{
+  orderLineItemId: Scalars['ID']['input'];
+}>;
+
+
+export type PublishLineItemByIdMutation = { publishOrderItem?: { id: string } | null };
 
 export type PublishReviewForProductMutationVariables = Exact<{
   reviewId: Scalars['ID']['input'];
@@ -10896,6 +10922,9 @@ export const CartCreateDocument = new TypedDocumentString(`
     data: {total: $total, email: $email, stripeCheckoutId: $stripeCheckoutId}
   ) {
     id
+    orderItems {
+      id
+    }
   }
 }
     `) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
@@ -10939,12 +10968,37 @@ export const GetCollectionsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetCollectionsQuery, GetCollectionsQueryVariables>;
+export const GetOrdersByEmailDocument = new TypedDocumentString(`
+    query GetOrdersByEmail($email: String!) {
+  ordersConnection(where: {email: $email}) {
+    edges {
+      node {
+        id
+        total
+        orderItems {
+          id
+          total
+          quantity
+          product {
+            id
+            name
+            price
+            images(first: 1) {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOrdersByEmailQuery, GetOrdersByEmailQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
-    query ProductsGetByCategorySlug($limit: Int!, $offset: Int!, $slug: String!) {
+    query ProductsGetByCategorySlug($limit: Int!, $offset: Int!, $slug: String!, $search: String!) {
   productsConnection(
     first: $limit
     skip: $offset
-    where: {categories_every: {slug: $slug}}
+    where: {categories_every: {slug: $slug}, _search: $search}
   ) {
     edges {
       node {
@@ -11010,10 +11064,25 @@ export const ProductsGetByIdDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetByIdQuery, ProductsGetByIdQueryVariables>;
-export const ProductGetListDocument = new TypedDocumentString(`
-    query ProductGetList {
-  products(first: 10) {
-    ...ProdutListItem
+export const ProductsGetListDocument = new TypedDocumentString(`
+    query ProductsGetList($limit: Int!, $offset: Int!, $search: String!) {
+  productsConnection(first: $limit, skip: $offset, where: {_search: $search}) {
+    edges {
+      node {
+        ...ProdutListItem
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      pageSize
+    }
+    aggregate {
+      count
+    }
   }
 }
     fragment ProdutListItem on Product {
@@ -11028,7 +11097,7 @@ export const ProductGetListDocument = new TypedDocumentString(`
   images(first: 1) {
     url
   }
-}`) as unknown as TypedDocumentString<ProductGetListQuery, ProductGetListQueryVariables>;
+}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
 export const ProductsGetByCollectionIdDocument = new TypedDocumentString(`
     query ProductsGetByCollectionId($id: ID!) {
   collection(where: {id: $id}) {
@@ -11080,6 +11149,20 @@ export const ProductsGetSizeColorVariantsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetSizeColorVariantsQuery, ProductsGetSizeColorVariantsQueryVariables>;
+export const PublishOrderByIdDocument = new TypedDocumentString(`
+    mutation PublishOrderById($orderId: ID!) {
+  publishOrder(where: {id: $orderId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<PublishOrderByIdMutation, PublishOrderByIdMutationVariables>;
+export const PublishLineItemByIdDocument = new TypedDocumentString(`
+    mutation PublishLineItemById($orderLineItemId: ID!) {
+  publishOrderItem(where: {id: $orderLineItemId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<PublishLineItemByIdMutation, PublishLineItemByIdMutationVariables>;
 export const PublishReviewForProductDocument = new TypedDocumentString(`
     mutation PublishReviewForProduct($reviewId: ID!) {
   publishReview(where: {id: $reviewId}) {

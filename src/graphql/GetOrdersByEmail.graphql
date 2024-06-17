@@ -1,0 +1,23 @@
+query GetOrdersByEmail($email: String!) {
+	ordersConnection(where: { email: $email }) {
+		edges {
+			node {
+				id
+				total
+				orderItems {
+					id
+					total
+					quantity
+					product {
+						id
+						name
+						price
+						images(first: 1) {
+							url
+						}
+					}
+				}
+			}
+		}
+	}
+}

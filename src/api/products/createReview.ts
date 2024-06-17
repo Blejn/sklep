@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 import { executeGraphql } from "../graphqlApi";
 
@@ -19,6 +19,8 @@ export const createReviewForProduct = async(review:ReviewSchemaDto, productId:st
                 'Authorization':`Bearer ${HYGRAPH_MUTATION_TOKEN}`
             }
         });
+
+        revalidateTag('product')
         
 
         return graphqlResponse.createReview;
@@ -34,6 +36,6 @@ export const createReviewForProduct = async(review:ReviewSchemaDto, productId:st
                 'Authorization':`Bearer ${HYGRAPH_MUTATION_TOKEN}`
             }
         })
-        revalidatePath("product");
+        revalidateTag("product");
         return graphqlResponse.publishReview;
     }

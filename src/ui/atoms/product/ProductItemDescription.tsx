@@ -1,7 +1,7 @@
 import React from "react";
-import { AddToCartButton } from "../AddToCartButton";
 import { AddReviewSection } from "./AddReviewSection";
 
+import { AddToCartSectionForm } from "./AddToCartSectionForm";
 import { type ProductsGetByIdQuery } from "@/gql/graphql";
 
 import {
@@ -13,19 +13,10 @@ import {
 } from "@/components/ui/select";
 
 import { formatMoney } from "@/utils";
-import { getOrCreateCard } from "@/app/[locale]/cart/actions";
-import { addToCart } from "@/api/cart";
 
 export const ProductDetailsDescription = (product: ProductsGetByIdQuery) => {
 	if (!product || !product.product) {
 		return null;
-	}
-
-	async function addToCardAction() {
-		"use server";
-		const cart = await getOrCreateCard();
-
-		cart && product.product && (await addToCart(cart.id, product.product?.id));
 	}
 
 	return (
@@ -64,10 +55,7 @@ export const ProductDetailsDescription = (product: ProductsGetByIdQuery) => {
 				<></>
 			)}
 			<div className="flex flex-row gap-1">
-				<form action={addToCardAction}>
-					<input type="hidden" name="productId" value={product.product?.id} />
-					<AddToCartButton />
-				</form>
+				<AddToCartSectionForm productId={product.product.id} />
 				{product.product?.id ? (
 					<AddReviewSection reviews={product.product.reviews} productId={product.product?.id} />
 				) : (
