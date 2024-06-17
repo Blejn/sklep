@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import React from "react";
 import Stripe from "stripe";
 
 export default async function SuccessPage({

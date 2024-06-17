@@ -3,16 +3,16 @@ import getQueryClient from "../../getQueryClient";
 import { ProductsList } from "@/ui/organisms/ProductsList";
 import { fetchProducts } from "@/server/products";
 
-export async function generateStaticParams() {
-	const queryClient = getQueryClient();
-	// Prefetch data for the first page as an example
-	await queryClient.prefetchQuery({
-		queryKey: ["products", "1"],
-		queryFn: () => fetchProducts("1"),
-	});
+// export async function generateStaticParams() {
+// 	const queryClient = getQueryClient();
+// 	// Prefetch data for the first page as an example
+// 	await queryClient.prefetchQuery({
+// 		queryKey: ["products", "1"],
+// 		queryFn: () => fetchProducts("1"),
+// 	});
 
-	return [{ pageNumber: "1" }, { pageNumber: "2" }, { pageNumber: "3" }];
-}
+// 	return [{ pageNumber: "1" }, { pageNumber: "2" }, { pageNumber: "3" }];
+// }
 
 export default async function ProductsPage({
 	params: { pageNumber },
